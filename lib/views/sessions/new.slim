@@ -1,0 +1,11 @@
+/! @include errors
+
+form@@session action="/sessions" method="post"
+  fieldset
+    ul
+      li
+        input@email type="text" placeholder="Email Address"
+      li
+        input@password type="password" placeholder="Password"
+      li
+        input type="submit" value="Sign In"
