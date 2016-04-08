@@ -1,5 +1,7 @@
 module Pakyow
-  module Blog
-    VERSION = '0.1.0'.freeze
+  module Console
+    module Blog
+      VERSION = '0.1.0'.freeze
+    end
   end
 end

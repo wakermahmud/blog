@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.authors                = ['Bryan Powell']
   spec.email                  = 'bryan@metabahn.com'
   spec.homepage               = 'http://pakyow.org'
-  spec.version                = Pakyow::Blog::VERSION
+  spec.version                = Pakyow::Console::Blog::VERSION
   spec.require_path           = 'lib'
   spec.files                  = Dir['CHANGELOG.md', 'README.md', 'LICENSE', 'lib/**/*']
   spec.license                = 'LGPL-3.0'
