@@ -1,8 +1,8 @@
 Sequel.migration do
   up do
     create_table :'pw-posts' do
-      primary_key   :id
-      foreign_key   :user_id, :'pw-users'
+      column :id, :uuid, default: Sequel.function(:uuid_generate_v4), primary_key: true
+      foreign_key   :user_id, :'pw-users', type: :uuid
       String        :title
       String        :slug
       json          :tags
