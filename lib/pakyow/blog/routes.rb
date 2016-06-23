@@ -25,7 +25,7 @@ module Pakyow
             end
 
             get :show, '/:slug' do
-              post = Pakyow::Console::Models::Post.first(slug: String.normalize_path(req.path))
+              post = Pakyow::Console::Models::Post.first(slug: String.normalize_path(params[:slug]))
 
               if post.nil? || !post.published
                 Pakyow::Console.handle_slug(self)
