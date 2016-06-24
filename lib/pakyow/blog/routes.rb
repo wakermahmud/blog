@@ -42,6 +42,8 @@ module Pakyow
 
             get :feed, '/feed' do
               posts = data(:'pw-post').published.data
+              proto = req.env['HTTP_X_FORWARDED_PROTO'] || 'http'
+              blog_url = "#{proto}://#{File.join(config.app.uri, current_plugin.slug)}"
 
               feed = Oga::XML::Document.new(type: :xml, xml_declaration: Oga::XML::XmlDeclaration.new(version: 1.0, encoding: 'UTF-8'))
 
@@ -60,7 +62,7 @@ module Pakyow
               channel.children << description
 
               link = Oga::XML::Element.new(name: 'link')
-              link.inner_text = File.join(config.app.uri, current_plugin.slug)
+              link.inner_text = blog_url
               channel.children << link
 
               language = Oga::XML::Element.new(name: 'language')
@@ -78,7 +80,7 @@ module Pakyow
               channel.children << generator
 
               atom_link = Oga::XML::Element.new(name: 'atom:link')
-              atom_link.set('href', File.join(config.app.uri, current_plugin.slug))
+              atom_link.set('href', blog_url)
               atom_link.set('rel', 'self')
               atom_link.set('type', 'application/rss+xml')
               channel.children << atom_link
@@ -91,7 +93,7 @@ module Pakyow
                 post_element.children << title
 
                 link = Oga::XML::Element.new(name: 'link')
-                link.inner_text = File.join(config.app.uri, current_plugin.slug, post.slug)
+                link.inner_text = File.join(blog_url, post.slug)
                 post_element.children << link
 
                 pub_date = Oga::XML::Element.new(name: 'pubDate')
@@ -99,7 +101,7 @@ module Pakyow
                 post_element.children << pub_date
 
                 guid = Oga::XML::Element.new(name: 'guid')
-                guid.inner_text = File.join(config.app.uri, current_plugin.slug, post.slug)
+                guid.inner_text = File.join(blog_url, post.slug)
                 guid.set('isPermaLink', 'true')
                 post_element.children << guid
 
