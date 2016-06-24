@@ -64,12 +64,12 @@ module Pakyow
               channel.children << link
 
               language = Oga::XML::Element.new(name: 'language')
-              language.inner_text = current_plugin.config['language']
+              language.inner_text = current_plugin.config['language'] || config.blog.language
               channel.children << language
 
               unless posts.empty?
                 last_build = Oga::XML::Element.new(name: 'lastBuildDate')
-                last_build.inner_text = posts.first.published_at.strftime(Pakyow::Console::RFC882)
+                last_build.inner_text = posts.first.published_at.httpdate
                 channel.children << last_build
               end
 
@@ -95,7 +95,7 @@ module Pakyow
                 post_element.children << link
 
                 pub_date = Oga::XML::Element.new(name: 'pubDate')
-                pub_date.inner_text = post.published_at.strftime(Pakyow::Console::RFC882)
+                pub_date.inner_text = post.published_at.httpdate
                 post_element.children << pub_date
 
                 guid = Oga::XML::Element.new(name: 'guid')
