@@ -7,7 +7,7 @@ module Pakyow
 
           template :blog do
             default do
-              mixin_view('pw-blog/index', :blog)
+              view.title = "#{config.app.name} - Blog"
 
               # TODO: we need support for pagination; perhaps baked into console
               view.scope(:'pw-post').mutate(:list, with: data(:'pw-post').published)
@@ -30,13 +30,13 @@ module Pakyow
               if post.nil? || !post.published
                 Pakyow::Console.handle_slug(self)
               else
-                mixin_view('pw-blog/show', :blog)
+                view.title = "#{config.app.name} - #{post.title}"
                 view.scope(:'pw-post').mutate(:show, with: post)
               end
             end
 
             get :archive, '/archive' do
-              mixin_view('pw-blog/archive', :blog)
+              view.title = "#{config.app.name} - Archive"
               view.scope(:'pw-post-group').mutate(:archive, with: data(:'pw-post').grouped)
             end
 
