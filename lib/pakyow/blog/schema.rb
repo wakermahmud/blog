@@ -11,7 +11,7 @@ Pakyow::Console.data :post, icon: 'newspaper-o' do
          notification: 'post published',
          display: ->(post) { !post.published? } do |post|
     post.published = true
-    post.published_at = Time.now
+    post.published_at = Time.now unless post.published_at
     post.save
   end
 
