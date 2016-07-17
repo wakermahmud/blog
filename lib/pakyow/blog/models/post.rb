@@ -51,7 +51,23 @@ module Pakyow
         def html
           renderer = Pakyow.app.presenter.store(:console).view('/console/pages/template')
           rendered = renderer.scope(:content)[0].dup
-          Pakyow::Console::ContentRenderer.render(body.content, view: rendered)
+          # TODO: once the renderer supports pulling constraints from the view, this won't be needed
+          Pakyow::Console::ContentRenderer.render(body.content, view: rendered, constraints: {
+            image: {
+              default: {
+                width: 700,
+              },
+
+              right: {
+                width: 350,
+              },
+
+              left: {
+                width: 400,
+              }
+            }
+          })
+
           rendered.to_html
         end
       end
