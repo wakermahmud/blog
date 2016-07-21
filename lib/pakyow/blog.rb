@@ -22,8 +22,8 @@ Pakyow::Console.plugin :blog do |plugin|
   end
 
   config do
-    opt :title
-    opt :description
+    opt :title, Pakyow::Config.app.name
+    opt :description, Pakyow::Config.app.description
     opt :language, 'en-US'
   end
 end

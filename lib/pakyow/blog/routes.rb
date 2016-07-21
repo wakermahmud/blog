@@ -53,11 +53,11 @@ module Pakyow
               channel = Oga::XML::Element.new(name: :channel)
 
               title = Oga::XML::Element.new(name: 'title')
-              title.inner_text = current_plugin.config['title']
+              title.inner_text = current_plugin.config['title'] || config.blog.title
               channel.children << title
 
               description = Oga::XML::Element.new(name: 'description')
-              description.inner_text = current_plugin.config['description']
+              description.inner_text = current_plugin.config['description'] || config.blog.description
               channel.children << description
 
               link = Oga::XML::Element.new(name: 'link')
