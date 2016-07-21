@@ -42,8 +42,7 @@ module Pakyow
 
             get :feed, '/feed' do
               posts = data(:'pw-post').published.data
-              proto = req.env['HTTP_X_FORWARDED_PROTO'] || 'http'
-              blog_url = "#{proto}://#{File.join(config.app.uri, current_plugin.slug)}"
+              blog_url = File.join(config.app.uri, current_plugin.slug)
 
               feed = Oga::XML::Document.new(type: :xml, xml_declaration: Oga::XML::XmlDeclaration.new(version: 1.0, encoding: 'UTF-8'))
 
