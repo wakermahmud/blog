@@ -49,11 +49,9 @@ module Pakyow
         end
 
         def html
-          renderer = Pakyow.app.presenter.store(:console).view('/console/pages/template')
-          rendered = renderer.scope(:content)[0].dup
-          Pakyow::Console::ContentRenderer.render(body.content, view: rendered)
-
-          rendered.to_html
+          renderer_view = Pakyow.app.presenter.store(:console).view('/console/pages/template')
+          rendered = renderer_view.scope(:content)[0]
+          Pakyow::Console::ContentRenderer.render(body.content, view: rendered).to_html
         end
       end
     end
