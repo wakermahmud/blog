@@ -27,3 +27,12 @@ Pakyow::Console.plugin :blog do |plugin|
     opt :language, 'en-US'
   end
 end
+
+Pakyow::App.after :load do
+  Pakyow::Console::Models::Post.where(published: true).each do |post|
+    Pakyow::Console.sitemap.url(
+      location: File.join(Pakyow::Config.app.uri, post.slug),
+      modified: post.updated_at.httpdate
+    )
+  end
+end
