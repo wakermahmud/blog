@@ -3,8 +3,13 @@ Pakyow::Console.data :post, icon: 'newspaper-o' do
   pluralize
 
   attribute :title, :string
+  attribute :slug, :string, nice: 'Post Path', display: -> (post) {
+    !post.nil? && !post.id.nil?
+  }
   attribute :body, :content
-  attribute :published_at, :datetime, nice: 'Publish Date'
+  attribute :published_at, :datetime, nice: 'Publish Date', display: -> (post) {
+    !post.nil? && !post.id.nil?
+  }
 
   action :publish,
          label: 'Publish',
@@ -13,7 +18,7 @@ Pakyow::Console.data :post, icon: 'newspaper-o' do
     post.published = true
     post.published_at = Time.now unless post.published_at
     post.save
-    
+
     Pakyow::Console.sitemap.url(
       location: File.join(Pakyow::Config.app.uri, post.slug),
       modified: post.updated_at.httpdate
@@ -26,7 +31,7 @@ Pakyow::Console.data :post, icon: 'newspaper-o' do
          display: ->(post) { post.published? } do |post|
     post.published = false
     post.save
-    
+
     Pakyow::Console.sitemap.delete_location(
       File.join(Pakyow::Config.app.uri, post.slug)
     )
@@ -58,7 +63,7 @@ Pakyow::Console.after :post, :update do |post|
     Pakyow::Console.sitemap.delete_location(
       File.join(Pakyow::Config.app.uri, post.initial_value(:slug))
     )
-    
+
     Pakyow::Console.sitemap.url(
       location: File.join(Pakyow::Config.app.uri, post.slug),
       modified: post.updated_at.httpdate
