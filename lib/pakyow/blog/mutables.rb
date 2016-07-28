@@ -4,8 +4,8 @@ Pakyow::App.mutable :'pw-post' do
   end
 
   query :grouped do
-    groups = Pakyow::Console::Models::Post.where(published: true).all.group_by { |p|
-      "#{p.published_at.year}-#{p.published_at.month}"
-    }.to_a.sort{|a,b| b[0] <=> a[0] }
+    Pakyow::Console::Models::Post.where(published: true).all.group_by { |p|
+      "#{p.published_at.year}-#{p.published_at.month.to_s.rjust(2, '0')}"
+    }.to_a.sort{ |a, b| b[0] <=> a[0] }
   end
 end
