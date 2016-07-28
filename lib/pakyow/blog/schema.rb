@@ -45,7 +45,7 @@ Pakyow::Console.data :post, icon: 'newspaper-o' do
       File.join(Pakyow::Config.app.uri, post.slug)
     )
 
-    redirect router.group(:data).path(:show, data_id: params[:data_id])
+    redirect router.group(:data).path(:show, data_id: 'post')
   end
 end
 
