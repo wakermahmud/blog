@@ -31,15 +31,16 @@ end
 Pakyow::App.after :load do
   Pakyow::Console::Models::MountedPlugin.where(active: true, name: 'blog').all.each do |mount|
     last_post = Pakyow::Console::Models::Post.where(published: true).first
+    modified_date = last_post ? last_post.updated_at : mount.activated_at
 
     Pakyow::Console.sitemap.url(
       location: File.join(Pakyow::Config.app.uri, mount.slug),
-      modified: last_post.updated_at.httpdate
+      modified: modified_date.httpdate
     )
 
     Pakyow::Console.sitemap.url(
       location: File.join(Pakyow::Config.app.uri, mount.slug, 'archive'),
-      modified: last_post.updated_at.httpdate
+      modified: modified_date.httpdate
     )
 
     # FIXME: once data sources can differ for a mount point, this will
