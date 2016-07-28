@@ -5,10 +5,11 @@ Pakyow::Console.data :post, icon: 'newspaper-o' do
   attribute :title, :string
   attribute :slug, :string, nice: 'Post Path', display: -> (post) {
     !post.nil? && !post.id.nil?
-  }
+  }, unlisted: true
   attribute :published_at, :datetime, nice: 'Publish Date', display: -> (post) {
     !post.nil? && !post.id.nil?
-  }
+  }, unlisted: true
+  attribute :published, :boolean, display: -> (post) { false }
   attribute :body, :content
 
   action :publish,
