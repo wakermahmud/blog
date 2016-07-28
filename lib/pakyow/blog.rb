@@ -29,10 +29,26 @@ Pakyow::Console.plugin :blog do |plugin|
 end
 
 Pakyow::App.after :load do
-  Pakyow::Console::Models::Post.where(published: true).each do |post|
+  Pakyow::Console::Models::MountedPlugin.where(active: true, name: 'blog').all.each do |mount|
+    last_post = Pakyow::Console::Models::Post.where(published: true).first
+
     Pakyow::Console.sitemap.url(
-      location: File.join(Pakyow::Config.app.uri, post.slug),
-      modified: post.updated_at.httpdate
+      location: File.join(Pakyow::Config.app.uri, mount.slug),
+      modified: last_post.updated_at.httpdate
     )
+
+    Pakyow::Console.sitemap.url(
+      location: File.join(Pakyow::Config.app.uri, mount.slug, 'archive'),
+      modified: last_post.updated_at.httpdate
+    )
+
+    # FIXME: once data sources can differ for a mount point, this will
+    # definitely need to be fixed
+    Pakyow::Console::Models::Post.where(published: true).each do |post|
+      Pakyow::Console.sitemap.url(
+        location: File.join(Pakyow::Config.app.uri, mount.slug, post.slug),
+        modified: post.updated_at.httpdate
+      )
+    end
   end
 end
